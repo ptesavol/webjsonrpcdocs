@@ -1,0 +1,16 @@
+{
+  "name": "webjsonrpcdocs",
+  "version": "0.0.2",
+  "description": "webjsonrpcdocs is a documentation and sample code repository for webjsonrpc",
+  "main": "nodeserver.js",
+  "dependencies": {
+    "websocket": "^1.0.21",
+    "winston": "^1.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node nodeserver.js"
+  },
+  "author": "Petri Savolainen",
+  "license": "MIT"
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script type="text/javascript" src="libs/webjsonrpc/callbackbuffer.js"></script>
+		<script type="text/javascript" src="libs/webjsonrpc/rpccommunicator.js"></script> 
+		<script type="text/javascript" src="libs/webjsonrpc/websocketconnection.js"></script> 
+		<script type="text/javascript" src="libs/webjsonrpc/websocketrpcconnection.js"></script> 
+			
+		<script type="text/javascript">
+		
+			function TestClient()
+				{
+				var self = this;
+				
+				var serverConnection = new WebSocketRpcConnection();
+				var connected = false;
+				
+				self.connect = function(host, port)
+					{
+					opts = {host: host, port: port, id: null};
+					
+					serverConnection.connect(opts, function()
+						{
+						console.log("connected to the websocket server");
+						connected = true;
+						});
+					};
+				
+				self.sayHelloToServer = function()
+					{
+					if (connected)
+						{
+						console.log("Trying to say hello to the server");
+						serverConnection.getCommunicator().callRpc("sayHello", ["Greetings!"], self, function(err, msg)
+							{
+							console.log("Server replied: '"+msg+"'");
+							});	
+						}
+					else
+						{
+						console.log("Cannot say hello to the server because not connected")
+						}
+					};
+				}
+				
+			var SERVER_ADDRESS = {host: "localhost", port: 19753};
+			var testClient = null;
+			
+			window.onload = function()
+				{
+				testClient = new TestClient(); 
+				testClient.connect(SERVER_ADDRESS.host, SERVER_ADDRESS.port);
+				}
+				
+		</script>
+		<title>
+			Websocket client example of webjsonrpc
+		</title>
+	</head>
+<body>
+	<h2>
+		Websocket client example of webjsonrpc
+	</h2>
+	<h3>
+		Please open the browser console to see what is happening!
+	</h3>
+	<button onclick="testClient.sayHelloToServer();">Say Hello To Server</button>
+</body>
+</html>

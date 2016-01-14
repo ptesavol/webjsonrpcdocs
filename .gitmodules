@@ -1,0 +1,3 @@
+[submodule "examples/www/libs/webjsonrpc"]
+	path = examples/www/libs/webjsonrpc
+	url = https://github.com/ptesavol/webjsonrpc.git
