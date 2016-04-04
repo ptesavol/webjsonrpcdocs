@@ -4,40 +4,41 @@
 
 if (typeof exports !== "undefined")
 	{
-	global.RpcCommunicator = require("./libs/webjsonrpc/rpccommunicator");
+	global.RpcCommunicator = require("./libs/webjsonrpc/binaryrpccommunicator");
 	global.WebSocketServer = require("./libs/webjsonrpc/websocketserver");
 	}
 
 
-function NodeServer()
+function BinaryServer()
 {
 var self = this;	
 
-var LISTEN_ADDRESS = {host: "", port: "19753"};
+var LISTEN_ADDRESS = {host: "", port: "1979"};
 
 var communicator = null; 
 var websocketServer = null; 
 
 self.onDisconnected = function(connectionId)	
 	{
-	console.log("NodeServer::onDisconnected() "+connectionId);
+	console.log("BinaryServer::onDisconnected() "+connectionId);
    	};
 	
 
 
-self.sayHello = function(message, connectionId, callback)
+self.sayBinaryHello = function(data, connectionId, callback)
 	{
-	console.log("Message: '" +message+ "' from connectionId: " + connectionId);
-	callback(null, "Greetings to you too!");
+	console.log("BinaryServer::sayBinaryHello()");
+	//console.log("Message: '" +message+ "' from connectionId: " + connectionId);
+	//callback(null, "Greetings to you too!");
 	};
 
 
 self.run = function()
 	{
-	communicator = new RpcCommunicator();
+	communicator = new BinaryRpcCommunicator();
 	websocketServer = new WebSocketServer();
 	
-	communicator.exposeRpcMethod("sayHello", self, self.sayHello);
+	communicator.exposeRpcMethod("sayBinaryHello", self, self.sayBinaryHello);
 	
 	
 	communicator.setDisconnectionListener(self, self.onDisconnected);
@@ -56,9 +57,9 @@ self.run = function()
 			console.log("Error: "+err);	
 			}
 		});	
-	};
+	}
 }
 
 
-var server = new NodeServer();
+var server = new BinaryServer();
 server.run();
